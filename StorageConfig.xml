@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><RawStorageParameters>
+  <SmallestRawGranule Size="16" Unit="MBytes"/>
+  <JavaRandomAccessFileSize NofRawGranules="1"/>
+  <StoragePaths Unit="MBytes">
+	<Path Location="G:/CyDIW_Storage" Size="64" Volume="G"/>
+  </StoragePaths>
+  <PageSize Unit="KBytes" Value="16"/>
+  <BufferNumber Value="6"/>
+</RawStorageParameters>

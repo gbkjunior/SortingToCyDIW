@@ -1,0 +1,61 @@
+/*
+This Commands Pane is for creating, editing, and executing batches of commands. To get started, use the [Open] button to load a 
+batch of commands from the Demo folder. 
+
+The Output Pane on the right is the default area where the output of a command is displayed. The pane is an html browser where 
+text, html documents, and images can be displayed. Alternatively, in some cases the outputs can be saved to files or displayed in 
+popup windows. 
+*/
+
+/*
+Step 0. Create and Load Storage
+*/
+$CyDB:> createStorage StorageConfig.xml;
+$CyDB:> loadStorage StorageConfig.xml;
+
+/*
+Step 1. List commands for CyUtils
+*/
+$CyUtils:> list commands;
+
+/*
+Step 2. Lookup for pageAccesses
+*/
+$CyDB:> resetPageAccessRelativeCount;
+$CyDB:> getPageAllocatedCount;
+$CyDB:> getPageDeallocatedCount;
+
+/*
+Step 3. Build an empty BTree, and show its root&sequence page Id
+*/
+$CyUtils:> BTreeBuildNew BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+$CyUtils:> BTreeShowRootSequencePageId BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+
+/*
+Step 4. Insert 4 tuples into storage, show its root&sequence page Id afterwards.
+Then sequencially visit all leaf page, print tupels in console.
+*/
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [2,Michael,COMS,100000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [3,Jack,EE,90000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [7,Helen,PHYS,80000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [8,Jeff,CHEM,90000];
+$CyUtils:> BTreeShowRootSequencePageId BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+$CyUtils:> BTreeSequenceScan BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+
+/*
+Step 5. Insert another 4 tuples into storage, show its root&sequence page Id, 
+and print tuples in console afterwards.
+This experiment is on purpose of showing btree page splitting ability.
+*/
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [1,Kate,ENGL,60000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [6,Kevin,ALG,70000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [4,Osborn,ME,80000];
+$CyUtils:> BTreeInsert BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml [5,Janathan,SPORT,120000];
+$CyUtils:> BTreeShowRootSequencePageId BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+$CyUtils:> BTreeSequenceScan BTreeZ .\cyutils\btree\workspace\BTreeConfig.xml .\cyutils\btree\workspace\TupleConfig.xml;
+
+/*
+Step 6. Lookup for pageAccesses
+*/
+$CyDB:> getPageAllocatedCount;
+$CyDB:> getPageDeallocatedCount;

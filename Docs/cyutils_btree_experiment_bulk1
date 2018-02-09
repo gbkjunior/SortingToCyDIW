@@ -1,0 +1,52 @@
+/*
+This Commands Pane is for creating, editing, and executing batches of commands. To get started, use the [Open] button to load a batch of commands from the Demo folder. 
+
+The Output Pane on the right is the default area where the output of a command is displayed. The pane is an html browser where text, html documents, and images can be displayed. Alternatively, in some cases the outputs can be saved to files or displayed in popup windows. 
+*/
+
+/*
+Step 0. Create and Load Storage
+*/
+
+$CyDB:> createStorage StorageConfig.xml;
+$CyDB:> loadStorage StorageConfig.xml;
+
+/*
+Step 1. List commands for CyUtils
+*/
+$CyUtils:> list commands;
+
+/*
+Step 2. Lookup for pageAccesses
+*/
+$CyDB:> resetPageAccessRelativeCount;
+$CyDB:> getPageAllocatedCount;
+$CyDB:> getPageDeallocatedCount;
+
+/*
+Step 3. Build an empty BTree, and show its root&sequence page Id
+*/
+$CyUtils:> BTreeBuildNew BTreeBulk1 .\cyutils\btree\workspace\BTreeConfigBulk1.xml .\cyutils\btree\workspace\TupleConfigBulk1.xml;
+$CyUtils:> BTreeShowRootSequencePageId BTreeBulk1 .\cyutils\btree\workspace\BTreeConfigBulk1.xml .\cyutils\btree\workspace\TupleConfigBulk1.xml;
+
+/*
+Step 4. Prepare sorted data for BTree
+*/
+$Cyutils:> BTreePrepareSortedData .\cyutils\btree\workspace\TupleConfigBulk1.xml .\cyutils\btree\workspace\tuples.txt;
+
+/*
+Step 5. BulkLoad auto generated sorted data into btree
+*/
+$CyUtils:> BTreeBulkLoad BTreeBulk1 .\cyutils\btree\workspace\BTreeConfigBulk1.xml .\cyutils\btree\workspace\TupleConfigBulk1.xml .\cyutils\btree\workspace\tuples.txt;
+$CyUtils:> BTreeShowRootSequencePageId BTreeBulk1 .\cyutils\btree\workspace\BTreeConfigBulk1.xml .\cyutils\btree\workspace\TupleConfigBulk1.xml;
+
+/*
+$CyUtils:> BTreeSequenceScan BTreeBulk1 .\cyutils\btree\workspace\BTreeConfigBulk1.xml .\cyutils\btree\workspace\TupleConfigBulk1.xml;
+*/
+
+
+/*
+Step 6. Lookup for pageAccesses
+*/
+$CyDB:> getPageAllocatedCount;
+$CyDB:> getPageDeallocatedCount;
